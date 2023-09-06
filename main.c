@@ -1,10 +1,16 @@
-#include "shell.h" 
+#include "shell.h"
 
-int main(void){
+/**
+ * main - Simple shell
+ * Return: Always 0 or -1.
+ */
+
+int main(void)
+{
 
 char *promp = "#cisfun$ ";
 char *buff;
-size_t num=0;
+size_t num = 0;
 ssize_t read;
 
 while (1)
@@ -12,7 +18,7 @@ while (1)
 	if (isatty(STDIN_FILENO))
 		printf("%s", promp);
 	read = getline(&buff, &num, stdin);
-	if(read == -1)
+	if (read == -1)
 	{
 		return (-1);
 	}
