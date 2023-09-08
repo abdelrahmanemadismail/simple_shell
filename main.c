@@ -24,8 +24,10 @@ while (1)
 	}
 	if (buff[read - 1] == '\n')
 		buff[read - 1] = '\0';
+
 	printf("%s", buff);
-	free(buff);
+         exe(buff);
+      	free(buff);
 	buff = NULL;
 }
 	free(buff);
