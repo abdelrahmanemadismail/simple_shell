@@ -8,9 +8,11 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
+
+extern char **environ;
+
 int exe(char *buff);
 int _strcmp(char *s1, char *s2);
 char which(char *token);
-
 
 #endif
