@@ -18,7 +18,7 @@ while (1)
 	if (isatty(STDIN_FILENO))
 		printf("%s", promp);
 	read = getline(&buff, &num, stdin);
-	if (read == -1)
+	if (read == -1 || _strcmp(buff, "exit\n") == 0)
 	{
 		return (-1);
 	}

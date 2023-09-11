@@ -22,17 +22,17 @@ int exe(char *buff)
 		token = strtok(NULL, " ");
 	}
 	argv[i] = NULL;
-	
-	pid=fork();
-	
-	if(pid == -1)
+
+	pid = fork();
+
+	if (pid == -1)
 	{
 		exit(1);
 		return (1);
 	}
-	if(pid==0)
+	if (pid == 0)
 	{
-		if(execve(argv[0],argv,NULL)==-1)
+		if (execve(argv[0], argv, NULL) == -1)
 		{
 			perror("no command");
 			exit(127);
