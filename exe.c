@@ -9,15 +9,19 @@
 
 int exe(char *buff)
 {
+	char *save=NULL;
 	pid_t pid;
 	int i = 0;
 	int status;
 	char *argv[64], *token = strtok(buff, " ");
 
+
 	if (token == NULL)
+	
 		return (1);
 	while (token)
 	{
+                save=which(*token);
 		argv[i++] = token;
 		token = strtok(NULL, " ");
 	}
@@ -32,7 +36,7 @@ int exe(char *buff)
 	}
 	if (pid == 0)
 	{
-		if (execve(argv[0], argv, NULL) == -1)
+		if (execve(save, argv, NULL) == -1)
 		{
 			perror("no command");
 			exit(127);
