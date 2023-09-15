@@ -11,8 +11,8 @@
 
 extern char **environ;
 
-int exe(char *buff);
-int _strcmp(char *s1, char *s2);
+char **tokenize(char *buf);
+int exe(char *command[]);
 char which(char *token);
 
 #endif
