@@ -7,9 +7,10 @@
 
 int main(void)
 {
-char *promp = "#cisfun$ ", *buff, **env = environ, **command;
+char *promp = "#cisfun$ ", *buff = NULL, **command;
 size_t num = 0;
 ssize_t read;
+int status = 0;
 
 while (1)
 {
@@ -18,27 +19,22 @@ while (1)
 	read = getline(&buff, &num, stdin);
 
 	if (read == -1)
+	{
+		puts("");
 		break;
+	}
 	else if (read == 1 && buff[0] == '\n')
 		continue;
 
 	if (buff[read - 1] == '\n')
 		buff[read - 1] = '\0';
 
-	command = tokenize(buff);
-	if (strcmp(command[0], "env") == 0)
-	{
-		while (*env)
-			printf("%s\n", *env++);
-		continue;
-	}
-	if (strcmp(command[0], "exit") == 0)
-	{
-		if (command[1] != NULL)
-			exit(atoi(command[1]));
+	command = tokenize(buff, " ");
+	status = exit_shell(command);
+	if (status != -1)
 		break;
-	}
-	exe(command);
+	if (!print_env(command[0]))
+		exe(command);
 	free(command);
 	command = NULL;
 	free(buff);
@@ -46,5 +42,6 @@ while (1)
 }
 	free(command);
 	free(buff);
+	exit(status);
 	return (0);
 }

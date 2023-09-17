@@ -11,18 +11,26 @@ int exe(char *command[])
 {
 	pid_t pid;
 	int status;
+	char *cmd;
 
+	cmd = which(command[0]);
+	if (cmd == NULL)
+	{
+		perror("hsh");
+		return (1);
+	}
 	pid = fork();
-
 	if (pid == -1)
 	{
+		free(cmd);
 		exit(1);
 		return (1);
 	}
 	if (pid == 0)
 	{
-		if (execve(command[0], command, NULL) == -1)
+		if (execve(cmd, command, NULL) == -1)
 		{
+			free(cmd);
 			perror("no command");
 			exit(127);
 		}
@@ -31,5 +39,7 @@ int exe(char *command[])
 	{
 		wait(&status);
 	}
+	free(cmd);
+	cmd = NULL;
 	return (0);
 }
