@@ -2,18 +2,21 @@
 
 /**
  * main - Simple shell
+ * @ac: number of element in av
+ * @av: array of parameters
  * Return: Always 0 or -1.
  */
 
-int main(void)
+int main(int ac, char **av)
 {
 char *promp = "#cisfun$ ", *buff = NULL, **command;
 size_t num = 0;
 ssize_t read;
-int status = 0;
+int count = 0, status = 0;
 
 while (1)
 {
+	count++;
 	free(buff);
 	buff = NULL;
 	if (isatty(STDIN_FILENO))
@@ -26,19 +29,17 @@ while (1)
 	if (buff[read - 1] == '\n')
 		buff[read - 1] = '\0';
 	command = tokenize(buff, " ");
-	if(!command)
+	if (!command)
 		continue;
-	status = exit_shell(command);
-	if (status != -1)
+	if (exit_shell(command, av[0], count))
 		break;
-	status = 0;
-	if (!print_env(command[0]))
-		exe(command);
+	if (!print_env(command[0]) && ac > 0)
+		status = exe(command, av[0], count);
 	free(command);
 	command = NULL;
 }
 	free(command);
 	free(buff);
-	exit(status);
+	_exit(status);
 	return (0);
 }

@@ -13,6 +13,8 @@ char *which(char *token)
 	if (stat(token, &buffer) == 0)
 		return (strdup(token));
 	path = getenv("PATH");
+	if (!path)
+		return (NULL);
 	path_cpy = strdup(path);
 	if (!path_cpy)
 		return (NULL);

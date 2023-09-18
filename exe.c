@@ -3,11 +3,12 @@
 /**
  * exe - Execute a command in a child process.
  * @command: The command to be executed.
- *
+ * @filename: shell filename.
+ * @c: line count 
  * Return: 0 when success otherwise 1.
  */
 
-int exe(char *command[])
+int exe(char *command[], char *filename, int c)
 {
 	pid_t pid;
 	int status;
@@ -16,8 +17,8 @@ int exe(char *command[])
 	cmd = which(command[0]);
 	if (cmd == NULL)
 	{
-		perror("hsh");
-		return (1);
+		fprintf(stderr, "%s: %i: %s: not found\n", filename, c, command[0]);
+		return (127);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -31,7 +32,7 @@ int exe(char *command[])
 		if (execve(cmd, command, NULL) == -1)
 		{
 			free(cmd);
-			perror("no command");
+			fprintf(stderr, "%s: %i: %s: not found\n", filename, c, command[0]);
 			exit(127);
 		}
 	}
@@ -41,5 +42,5 @@ int exe(char *command[])
 	}
 	free(cmd);
 	cmd = NULL;
-	return (0);
+	return (WEXITSTATUS(status));
 }

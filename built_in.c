@@ -24,13 +24,24 @@ int print_env(char *command)
  *
  * Return: status code
  */
-int exit_shell(char **command)
+int exit_shell(char *command[], char *filename, int c)
 {
+	char *endptr;
+	long status;
 	if (strcmp(command[0], "exit") == 0)
 	{
 		if (command[1] != NULL)
-			return (atoi(command[1]));
-		return (0);
+		{
+			status = strtol(command[1], &endptr, 10);
+			if (*endptr == '\0' && status >= 0)
+				_exit((int)status);
+			else
+			{
+				fprintf(stderr, "%s: %i: %s: Illegal number: %s\n", filename, c, command[0], command[1]);
+				_exit(2);
+			}
+		}
+		return (1);
 	}
-	return (-1);
+	return (0);
 }

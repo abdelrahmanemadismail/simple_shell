@@ -12,9 +12,8 @@
 extern char **environ;
 
 char **tokenize(char *buf, char *del);
-int exe(char *command[]);
+int exe(char *command[], char *filename, int c);
 char *which(char *token);
 int print_env(char *command);
-int exit_shell(char **command);
-
+int exit_shell(char *command[], char *filename, int c);
 #endif
