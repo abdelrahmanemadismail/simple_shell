@@ -31,15 +31,18 @@ while (1)
 	command = tokenize(buff, " ");
 	if (!command)
 		continue;
-	if (exit_shell(command, av[0], count))
+	status = exit_shell(command, av[0], count, status);
+	if (status != -1)
 		break;
-	if (!print_env(command[0]) && ac > 0)
+	if (!print_env(command) && ac > 0)
 		status = exe(command, av[0], count);
 	free(command);
 	command = NULL;
 }
 	free(command);
 	free(buff);
+	if (status == -1)
+		status = 0;
 	_exit(status);
 	return (0);
 }

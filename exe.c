@@ -4,7 +4,7 @@
  * exe - Execute a command in a child process.
  * @command: The command to be executed.
  * @filename: shell filename.
- * @c: line count 
+ * @c: line count
  * Return: 0 when success otherwise 1.
  */
 
@@ -12,7 +12,7 @@ int exe(char *command[], char *filename, int c)
 {
 	pid_t pid;
 	int status;
-	char *cmd;
+	char *cmd, **env = environ;
 
 	cmd = which(command[0]);
 	if (cmd == NULL)
@@ -29,7 +29,7 @@ int exe(char *command[], char *filename, int c)
 	}
 	if (pid == 0)
 	{
-		if (execve(cmd, command, NULL) == -1)
+		if (execve(cmd, command, env) == -1)
 		{
 			free(cmd);
 			fprintf(stderr, "%s: %i: %s: not found\n", filename, c, command[0]);

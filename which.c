@@ -31,7 +31,7 @@ char *which(char *token)
 		file_path = malloc(tkn_len + dir_len + 2);
 		if (!file_path)
 			break;
-		strcpy(file_path, path_token[i]);
+		strcpy(file_path, path_token[i++]);
 		strcat(file_path, "/");
 		strcat(file_path, token);
 		strcat(file_path, "\0");
@@ -42,7 +42,6 @@ char *which(char *token)
 			return (file_path);
 		}
 		free(file_path);
-		i++;
 	}
 	free(path_cpy);
 	free(path_token);
