@@ -14,4 +14,5 @@ int exe(char *command[], char *filename, int c);
 char *which(char *token);
 int print_env(char *command[]);
 int exit_shell(char *command[], char *filename, int c, int s);
+int manage_env(char *command[]);
 #endif

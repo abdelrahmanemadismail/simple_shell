@@ -34,7 +34,7 @@ while (1)
 	status = exit_shell(command, av[0], count, status);
 	if (status != -1)
 		break;
-	if (!print_env(command) && ac > 0)
+	if (!(print_env(command) || manage_env(command)) && ac > 0)
 		status = exe(command, av[0], count);
 	free(command);
 	command = NULL;

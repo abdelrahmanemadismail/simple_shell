@@ -17,7 +17,6 @@ int print_env(char *command[])
 	}
 	return (0);
 }
-
 /**
  * exit_shell - built-in, that exits the shell
  * @command: input string from the user
@@ -47,3 +46,26 @@ int exit_shell(char *command[], char *filename, int c, int s)
 	}
 	return (-1);
 }
+/**
+ * manage_env - Handles environment-related commands (setenv and unsetenv).
+ * @command: The parsed command.
+ * Return: 0 on success, -1 on failure.
+ */
+int manage_env(char *command[])
+{
+
+	if (strcmp(command[0], "setenv") == 0)
+	{
+		if (command[1] != NULL && command[2] != NULL)
+			setenv(command[1], command[2], 1);
+		return (1);
+	}
+	else if (strcmp(command[0], "unsetenv") == 0)
+	{
+		if (command[1] != NULL)
+			unsetenv(command[1]);
+		return (1);
+	}
+	return (0);
+}
+
