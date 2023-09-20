@@ -79,7 +79,7 @@ int mng_env(char *command[])
  */
 int cd_sh(char *command[], char *filename, int c)
 {
-	char *directory, *current_dir;
+	char *directory, *current_dir, *new_pwd;
 
 	if (strcmp(command[0], "cd") == 0)
 	{
@@ -101,13 +101,21 @@ int cd_sh(char *command[], char *filename, int c)
 			free(current_dir);
 			return (1);
 		}
-		if (setenv("OLDPWD", current_dir, 1) != 0 ||
-				setenv("PWD", getcwd(NULL, 0), 1) != 0)
+		new_pwd = getcwd(NULL, 0);
+		if (new_pwd == NULL)
 		{
 			free(current_dir);
 			return (1);
 		}
+		if (setenv("OLDPWD", current_dir, 1) != 0 ||
+				setenv("PWD", new_pwd, 1) != 0)
+		{
+			free(current_dir);
+			free(new_pwd);
+			return (1);
+		}
 		free(current_dir);
+		free(new_pwd);
 		return (1);
 	}
 	return (0);
