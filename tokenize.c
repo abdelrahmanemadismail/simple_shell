@@ -12,7 +12,10 @@ char **tokenize(char *buf, char *del)
 
 	token = strtok(buf, del);
 	if (token == NULL)
+	{
+		free(tokenized);
 		return (NULL);
+	}
 	while (token)
 	{
 		tokenized[i++] = token;

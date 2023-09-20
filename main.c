@@ -21,6 +21,7 @@ while (1)
 	buff = NULL;
 	if (isatty(STDIN_FILENO))
 		printf("%s", promp);
+	num = 0;
 	read = getline(&buff, &num, stdin);
 	if (read == -1)
 		break;
