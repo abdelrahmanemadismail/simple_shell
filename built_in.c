@@ -11,6 +11,8 @@ int print_env(char *command[])
 
 	if (strcmp(command[0], "env") == 0)
 	{
+		if (!env)
+			return (1);
 		while (env[i])
 			printf("%s\n", env[i++]);
 		return (1);
