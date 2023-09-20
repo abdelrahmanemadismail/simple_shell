@@ -13,6 +13,7 @@ char **tokenize(char *buf, char *del);
 int exe(char *command[], char *filename, int c);
 char *which(char *token);
 int print_env(char *command[]);
-int exit_shell(char *command[], char *filename, int c, int s);
-int manage_env(char *command[]);
+int exit_sh(char *command[], char *filename, int c, int s);
+int mng_env(char *command[]);
+int cd_sh(char *command[], char *filename, int c);
 #endif

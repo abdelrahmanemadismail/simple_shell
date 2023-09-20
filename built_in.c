@@ -20,14 +20,14 @@ int print_env(char *command[])
 	return (0);
 }
 /**
- * exit_shell - built-in, that exits the shell
+ * exit_sh - built-in, that exits the shell
  * @command: input string from the user
  * @filename: shell filename.
  * @c: line count
  * @s: last command status
  * Return: status code
  */
-int exit_shell(char *command[], char *filename, int c, int s)
+int exit_sh(char *command[], char *filename, int c, int s)
 {
 	char *endptr;
 	long status;
@@ -49,11 +49,11 @@ int exit_shell(char *command[], char *filename, int c, int s)
 	return (-1);
 }
 /**
- * manage_env - Handles environment-related commands (setenv and unsetenv).
+ * mng_env - Handles environment-related commands (setenv and unsetenv).
  * @command: The parsed command.
  * Return: 0 on success, -1 on failure.
  */
-int manage_env(char *command[])
+int mng_env(char *command[])
 {
 
 	if (strcmp(command[0], "setenv") == 0)
@@ -70,4 +70,45 @@ int manage_env(char *command[])
 	}
 	return (0);
 }
+/**
+ * cd_sh - change the current working directory
+ * @command: input string from the user
+ * @filename: shell filename.
+ * @c: line count
+ * Return: 0 on success, -1 on failure
+ */
+int cd_sh(char *command[], char *filename, int c)
+{
+	char *directory, *current_dir;
 
+	if (strcmp(command[0], "cd") == 0)
+	{
+		if (command[1] == NULL)
+			directory = getenv("HOME");
+		else if (strcmp(command[1], "-") == 0)
+			directory = getenv("OLDPWD");
+		else
+			directory = command[1];
+		if (directory == NULL)
+			return (1);
+		current_dir = getcwd(NULL, 0);
+		if (current_dir == NULL)
+			return (1);
+		if (chdir(directory) != 0)
+		{
+			fprintf(stderr, "%s: %i: %s: can't cd to %s\n",
+					filename, c, command[0], command[1]);
+			free(current_dir);
+			return (1);
+		}
+		if (setenv("OLDPWD", current_dir, 1) != 0 ||
+				setenv("PWD", getcwd(NULL, 0), 1) != 0)
+		{
+			free(current_dir);
+			return (1);
+		}
+		free(current_dir);
+		return (1);
+	}
+	return (0);
+}

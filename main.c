@@ -9,14 +9,14 @@
 
 int main(int ac, char **av)
 {
-char *promp = "#cisfun$ ", *buff = NULL, **command;
+char *promp = "#cisfun$ ", *buff = NULL, **cmd;
 size_t num = 0;
 ssize_t read;
-int count = 0, status = 0;
+int c = 0, status = 0;
 
 while (1)
 {
-	count++;
+	c++;
 	free(buff);
 	buff = NULL;
 	if (isatty(STDIN_FILENO))
@@ -29,18 +29,18 @@ while (1)
 		continue;
 	if (buff[read - 1] == '\n')
 		buff[read - 1] = '\0';
-	command = tokenize(buff, " ");
-	if (!command)
+	cmd = tokenize(buff, " ");
+	if (!cmd)
 		continue;
-	status = exit_shell(command, av[0], count, status);
+	status = exit_sh(cmd, av[0], c, status);
 	if (status != -1)
 		break;
-	if (!(print_env(command) || manage_env(command)) && ac > 0)
-		status = exe(command, av[0], count);
-	free(command);
-	command = NULL;
+	if (!(print_env(cmd) || mng_env(cmd) || cd_sh(cmd, av[0], c)) && ac > 0)
+		status = exe(cmd, av[0], c);
+	free(cmd);
+	cmd = NULL;
 }
-	free(command);
+	free(cmd);
 	free(buff);
 	if (status == -1)
 		status = 0;
